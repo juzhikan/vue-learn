@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>tes2t</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="applicable-device" content="mobile">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <script>
+      (function(doc,win){
+        var docEl = document.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recacl = function() {
+            var w = docEl.clientWidth || document.body.clientWidth;
+            win.PG_CONFIG = win.PG_CONFIG?win.PG_CONFIG:{};
+            win.PG_CONFIG.rem = 37.5*(w/375);
+            docEl.style.fontSize = win.PG_CONFIG.rem + 'px';
+            
+            setTimeout(function(){
+                var d = document.createElement('div');
+                d.style.cssText="width:1rem;height:0;overflow: hidden;position:absolute;z-index:-1;visibility: hidden;";
+                document.body.appendChild(d);
+                var dw=d.offsetWidth; // 1rem的实际展示px值
+                document.body.removeChild(d);
+                var rem = win.PG_CONFIG.rem
+                if(Math.abs(dw - rem) > 1){//不相等 则被放大了
+                    win.PG_CONFIG.rem = Math.pow(rem , 2) / dw;
+                    docEl.style.fontSize = win.PG_CONFIG.rem + 'px';
+                }
+            }, 200)
+        }
+        recacl()
+        win.addEventListener(resizeEvt,recacl);
+    })(document,window)
+  </script>
+  <style>
+    #app {
+      white-space: pre;
+      font-size: 12px;
+    }
+  </style>
+  </head>
+  <body>
+    <div id="app">
+    </div>
+  </body>
+  <script src="./main.js"></script>
+</html>
